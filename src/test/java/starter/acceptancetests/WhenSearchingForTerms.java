@@ -15,7 +15,7 @@ import starter.actions.SearchSteps;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SerenityJUnit5Extension.class)
-class TestWhenSearchingForTerms {
+class WhenSearchingForTermsTest {
 
     @Steps
     NavigateSteps navigate;
