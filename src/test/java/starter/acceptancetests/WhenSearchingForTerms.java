@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import starter.actions.NavigateSteps;
 import starter.actions.ProductSteps;
 import starter.actions.SearchSteps;
@@ -37,8 +38,8 @@ class TestWhenSearchingForTerms {
     @DisplayName("Should be able to search for products and return multiple results")
     @CsvSource({
             "shirt, 4",
-            "spray, 6",
-            "cream, 4",
+            "spray, 7",
+            "eye, 6",
             "shoe, 4"
     })
     void searchForMultipleProducts(String term, String productsNr) {
@@ -48,11 +49,20 @@ class TestWhenSearchingForTerms {
     }
 
     @Test
-    @DisplayName("Result page product should mention the search term")
+    @DisplayName("Result product page should mention the search term")
     void searchForSpecificProduct() {
         navigate.opensTheHomePage();
         search.searchForTerm("Fruit of the Loom T-Shirts 5 Pack");
         assertThat(product.getProductName()).containsIgnoringCase("Fruit of the Loom T-Shirts 5 Pack");
+    }
+
+    @ParameterizedTest
+    @DisplayName("Result product page should mention the search term")
+    @ValueSource(strings = { "Fiorella", "Bulgari", "Doll Lashes Mascara" })
+    void searchForProductNames(String productName) {
+        navigate.opensTheHomePage();
+        search.searchForTerm(productName);
+        assertThat(product.getProductName()).containsIgnoringCase(productName);
     }
 
 }

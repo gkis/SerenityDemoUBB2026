@@ -2,6 +2,7 @@ package starter.actions;
 
 import net.serenitybdd.annotations.Step;
 import net.serenitybdd.core.steps.UIInteractionSteps;
+import org.openqa.selenium.JavascriptExecutor;
 import starter.pageobjects.SearchForm;
 
 import java.time.Duration;
@@ -17,8 +18,15 @@ public class SearchSteps extends UIInteractionSteps {
     public void searchForTerm(String searchTerm) {
         find(SearchForm.SEARCH_FIELD).sendKeys(searchTerm);
         find(SearchForm.SEARCH_BUTTON).click();
-        withTimeoutOf(Duration.ofSeconds(10))
-                .waitFor(presenceOfElementLocated(SearchForm.ARTICLE_HEADINGS));
+
+        /*withTimeoutOf(Duration.ofSeconds(10))
+                .waitFor(presenceOfElementLocated(SearchForm.ARTICLE_HEADINGS));*/
+
+        //wait until page loads
+        withTimeoutOf(Duration.ofSeconds(10)).waitForCondition().until(
+                driver -> ((JavascriptExecutor) driver)
+                        .executeScript("return document.readyState")
+                        .equals("complete"));
     }
 
     @Step("Check the search results")
